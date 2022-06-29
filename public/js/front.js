@@ -5144,9 +5144,120 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
-  components: {}
+  components: {},
+  data: function data() {
+    return {
+      // posts: '',
+      postsResponse: "",
+      categories: ""
+    };
+  },
+  methods: {
+    getAllPosts: function getAllPosts(postPage) {
+      var _this = this;
+
+      axios.get('/api/posts', {
+        params: {
+          page: postPage
+        }
+      }).then(function (response) {
+        console.log(response);
+        _this.postsResponse = response.data;
+        console.log(_this.postsResponse);
+      })["catch"](function (e) {
+        console.error(e);
+      });
+    },
+    // getAllCategories() {
+    //     axios
+    //         .get('/api/categories')
+    //         .then((response) => {
+    //             console.log(response);
+    //             this.postsResponse = response.data;
+    //         }).catch(e => {
+    //             console.error(e);
+    //         });
+    // },       
+    trimText: function trimText(text) {
+      if (text != null && text.length > 100) {
+        return text.slice(0, 100) + '...';
+      }
+
+      return text;
+    }
+  },
+  mounted: function mounted() {
+    console.log('mounted');
+    this.getAllPosts(1); // this.getAllCategories();
+  }
 });
 
 /***/ }),
@@ -41442,20 +41553,181 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h1", { staticClass: "text-center mt-4" }, [
-        _vm._v(" Work In Progress"),
+  return _c("div", [
+    _c("h1", { staticClass: "text-center mt-4" }, [
+      _vm._v(" Work In Progress"),
+    ]),
+    _vm._v(" "),
+    _c("section", { staticClass: "posts" }, [
+      _c("div", { staticClass: "container" }, [
+        _c(
+          "div",
+          { staticClass: "row row-cols-1 row-cols-sm-2 row-cols-md-3" },
+          _vm._l(_vm.postsResponse.data, function (post) {
+            return _c("div", { key: post.id, staticClass: "col g-4" }, [
+              _c("div", { staticClass: "product card h-100" }, [
+                _c("img", {
+                  staticClass: "img-fluid ",
+                  attrs: { src: "storage/" + post.cover_image, alt: "" },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h4", [_vm._v(_vm._s(post.title))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(_vm.trimText(post.content)))]),
+                  _vm._v(" "),
+                  _c("a", { attrs: { href: "" } }, [_vm._v("Read more")]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-footer" }, [
+                  _c("div", { staticClass: "categories" }, [
+                    post.category
+                      ? _c("small", [
+                          _c(
+                            "span",
+                            { staticClass: "text-decoration-underline" },
+                            [_vm._v("Category:")]
+                          ),
+                          _vm._v(" " + _vm._s(post.category.name) + " "),
+                        ])
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  post.tags.length > 0
+                    ? _c("div", { staticClass: "tags" }, [
+                        _c(
+                          "small",
+                          { staticClass: "text-decoration-underline" },
+                          [_vm._v("Tags: ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          _vm._l(post.tags, function (tag) {
+                            return _c("li", { key: tag.id }, [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(tag.name) +
+                                  "\n                                    "
+                              ),
+                            ])
+                          }),
+                          0
+                        ),
+                      ])
+                    : _vm._e(),
+                ]),
+              ]),
+            ])
+          }),
+          0
+        ),
       ]),
-    ])
-  },
-]
+      _vm._v(" "),
+      _c("div", { staticClass: "mt-4" }, [
+        _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
+          _c(
+            "ul",
+            { staticClass: "pagination justify-content-center" },
+            [
+              _vm.postsResponse.current_page > 1
+                ? _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        attrs: { href: "#", "aria-label": "Previous" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.getAllPosts(
+                              _vm.postsResponse.current_page - 1
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("span", { staticClass: "sr-only" }, [
+                          _vm._v("Previous"),
+                        ]),
+                      ]
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.postsResponse.last_page, function (page) {
+                return _c(
+                  "li",
+                  {
+                    key: page.index,
+                    class: {
+                      "page-item": true,
+                      active: page == _vm.postsResponse.current_page,
+                    },
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.getAllPosts(page)
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(page) +
+                            "\n                        "
+                        ),
+                      ]
+                    ),
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c("li", { staticClass: "page-item" }),
+              _vm.postsResponse.current_page < _vm.postsResponse.last_page
+                ? _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        attrs: { href: "#", "aria-label": "Next" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.getAllPosts(
+                              _vm.postsResponse.current_page + 1
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("«"),
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "sr-only" }, [
+                          _vm._v("Next"),
+                        ]),
+                      ]
+                    ),
+                  ])
+                : _vm._e(),
+            ],
+            2
+          ),
+        ]),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -53908,7 +54180,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/LARAVEL/laravel-many-to-many/laravel-many-to-many/resources/js/front.js */"./resources/js/front.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/LARAVEL/laravel-api/resources/js/front.js */"./resources/js/front.js");
 
 
 /***/ })
